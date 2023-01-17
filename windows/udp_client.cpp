@@ -7,7 +7,6 @@ UDPClient::UDPClient(std::string ip, uint16_t port)
 	, m_port(port)
 	, m_sockfd(INVALID_SOCKET)
 	, m_sock_addr{0}
-	, m_buf{0}
 {
 	//default ip="127.0.0..1", port=8888.
 	memset(&m_sock_addr, 0, sizeof(sockaddr_in));
@@ -46,6 +45,8 @@ bool UDPClient::connect()
 	m_sock_addr.sin_family = AF_INET;
 	m_sock_addr.sin_port = htons(m_port);
 	m_sock_addr.sin_addr.S_un.S_addr = inet_addr(m_ip.c_str());
+
+	return true;
 }
 
 void UDPClient::close()

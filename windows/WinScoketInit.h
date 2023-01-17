@@ -13,8 +13,10 @@
 			@date:		2022-06-15
 			@brief:		´´½¨
 ***************************************************************************/
+#ifndef _WINSOCKETINIT_H_
+#define _WINSOCKETINIT_H_
 
-#pragma once
+
 #include <WinSock2.h>
 #include <iostream>
 
@@ -32,3 +34,4 @@ private:
 	WSADATA wsaData;
 };
 
+#endif // !_WINSOCKETINIT_H_

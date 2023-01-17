@@ -1,7 +1,6 @@
 #ifndef _UDP_CLIENT_H_
 #define _UDP_CLIENT_H_
 
-#include <iostream>
 #include "WinScoketInit.h"
 
 class UDPClient :public WinScoketInit
@@ -31,7 +30,6 @@ private:
 	uint16_t m_port;
 	SOCKET m_sockfd;
 	struct sockaddr_in m_sock_addr;
-	char m_buf[80];
 };
 
 #endif // !_UDP_CLIENT_H_
