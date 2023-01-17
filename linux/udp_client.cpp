@@ -55,6 +55,8 @@ void UDPClient::closeSock()
 	if (-1 != m_sockfd)
 	{
 		close(m_sockfd);
+
+		m_sockfd = -1;
 	}
 }
 
