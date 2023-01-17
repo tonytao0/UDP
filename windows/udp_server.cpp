@@ -62,7 +62,9 @@ bool UDPServer::connect()
 	if (bind(m_sockfd, (sockaddr*)&m_sock_addr, sizeof(m_sock_addr)) == SOCKET_ERROR)
 	{
 		printf("bind error !");
-		closesocket(m_sockfd);
+
+		close();
+
 		return false;
 	}
 
@@ -81,6 +83,8 @@ void UDPServer::close()
 	if (INVALID_SOCKET != m_sockfd)
 	{
 		closesocket(m_sockfd);
+
+		m_sockfd = INVALID_SOCKET;
 	}
 }
 
@@ -98,7 +102,7 @@ void UDPServer::run()
 		if (ret > 0)
 		{
 			recvData[ret] = '\0';
-			printf("recive a new connect£º%s \r\n", inet_ntoa(remote_sock_addr.sin_addr));
+			printf("recive a new connectï¿½ï¿½%s \r\n", inet_ntoa(remote_sock_addr.sin_addr));
 			printf(recvData);
 		}
 
