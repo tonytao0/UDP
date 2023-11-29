@@ -10,19 +10,21 @@ public:
 
 	~UDPClient();
 
-	void resetIP(std::string ip);
+	void setIP(std::string ip);
 
-	void resetPort(uint16_t port);
+	void setPort(uint16_t port);
 
 	bool connect();
 
 	void close();
 
-	void send(const std::string& msg);
+	void send(const std::string& msg, struct sockaddr_in serverAddr);
 
-	void send(const char*, size_t len);
+	void send(const char*, size_t len, struct sockaddr_in serverAddr);
 
-	uint32_t recv(char* buf, uint32_t len);
+	uint32_t recv(char* buf, uint32_t len, struct sockaddr_in serverAddr);
+
+	sockaddr_in  getServer();
 
 
 private:

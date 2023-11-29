@@ -19,12 +19,12 @@ UDPClient::~UDPClient()
 {
 }
 
-void UDPClient::resetIP(std::string ip)
+void UDPClient::setIP(std::string ip)
 {
 	m_ip = ip;
 }
 
-void UDPClient::resetPort(uint16_t port)
+void UDPClient::setPort(uint16_t port)
 {
 	m_port = port;
 }
@@ -57,19 +57,24 @@ void UDPClient::close()
 	}
 }
 
-void UDPClient::send(const std::string &msg)
+void UDPClient::send(const std::string &msg, struct sockaddr_in serverAddr)
 {
-	sendto(m_sockfd, msg.c_str(), msg.length(), 0, (struct sockaddr*)&m_sock_addr, sizeof(m_sock_addr));
+	sendto(m_sockfd, msg.c_str(), msg.length(), 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr));
 }
 
-void UDPClient::send(const char* msg, size_t len)
+void UDPClient::send(const char* msg, size_t len, struct sockaddr_in serverAddr)
 {
-	sendto(m_sockfd, msg, len, 0, (struct sockaddr*)&m_sock_addr, sizeof(m_sock_addr));
+	sendto(m_sockfd, msg, len, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr));
 }
 
-uint32_t UDPClient::recv(char* buf, uint32_t len)
+uint32_t UDPClient::recv(char* buf, uint32_t len, struct sockaddr_in serverAddr)
 {
-	int addr_len = sizeof(m_sock_addr);
+	int addr_len = sizeof(serverAddr);
 
-	return recvfrom(m_sockfd, buf, len, 0, (sockaddr*)&m_sock_addr, &addr_len);
+	return recvfrom(m_sockfd, buf, len, 0, (sockaddr*)&serverAddr, &addr_len);
+}
+
+sockaddr_in  UDPClient::getServer()
+{
+	return m_sock_addr;
 }

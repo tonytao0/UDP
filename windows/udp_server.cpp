@@ -19,12 +19,12 @@ UDPServer::~UDPServer()
 {
 }
 
-void UDPServer::resetIP(std::string ip)
+void UDPServer::setIP(std::string ip)
 {
 	m_ip = ip;
 }
 
-void UDPServer::resetPort(uint16_t port)
+void UDPServer::setPort(uint16_t port)
 {
 	m_port = port;
 }
@@ -73,8 +73,8 @@ bool UDPServer::connect()
 
 bool UDPServer::reconnect(std::string ip, uint16_t port)
 {
-	resetIP(ip);
-	resetPort(port);
+	setIP(ip);
+	setPort(port);
 	return connect();
 }
 
@@ -88,24 +88,24 @@ void UDPServer::close()
 	}
 }
 
-void UDPServer::run()
+void UDPServer::send(const std::string& msg, sockaddr_in clientAddr)
 {
-	sockaddr_in remote_sock_addr;
-	int addr_len = sizeof(remote_sock_addr);
+	sendto(m_sockfd, msg.c_str(), msg.length(), 0, (struct sockaddr*)&m_sock_addr, sizeof(m_sock_addr));
+}
 
-	char recvData[255] = {0};
-	const char* sendData = "a udp packet from udp server\n";
+void UDPServer::send(const char* msg, size_t len, sockaddr_in clientAddr)
+{
+	sendto(m_sockfd, msg, len, 0, (struct sockaddr*)&m_sock_addr, sizeof(m_sock_addr));
+}
 
-	while (true)
-	{
-		int ret = recvfrom(m_sockfd, recvData, 255, 0, (sockaddr*)&remote_sock_addr, &addr_len);
-		if (ret > 0)
-		{
-			recvData[ret] = '\0';
-			printf("recive a new connect��%s \r\n", inet_ntoa(remote_sock_addr.sin_addr));
-			printf(recvData);
-		}
+uint32_t UDPServer::recv(char* buf, uint32_t len, sockaddr_in clientAddr)
+{
+	int clientAddrLen = sizeof(m_sock_addr);
 
-		sendto(m_sockfd, sendData, strlen(sendData), 0, (sockaddr*)&remote_sock_addr, addr_len);
-	}
+	return recvfrom(m_sockfd, buf, len, 0, (sockaddr*)&clientAddr, &clientAddrLen);
+}
+
+sockaddr_in UDPServer::getClient()
+{
+	return clientAddr;
 }

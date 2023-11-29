@@ -10,9 +10,9 @@ public:
 
 	~UDPServer();
 
-	void resetIP(std::string ip);
+	void setIP(std::string ip);
 
-	void resetPort(uint16_t port);
+	void setPort(uint16_t port);
 
 	bool connect();
 
@@ -20,13 +20,21 @@ public:
 
 	void close();
 
-	void run();
+	void send(const std::string& msg, sockaddr_in clientAddr);
+
+	void send(const char*, size_t len,sockaddr_in clientAddr);
+
+	uint32_t recv(char* buf, uint32_t len, sockaddr_in clientAddr);
+
+	sockaddr_in getClient();
 
 private:
 	std::string m_ip;
 	uint16_t m_port;
 	SOCKET m_sockfd;
 	struct sockaddr_in m_sock_addr;
+
+	struct sockaddr_in clientAddr;
 };
 
 #endif // !_UDP_SERVER_H_

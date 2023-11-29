@@ -17,9 +17,9 @@ public:
 
 	~UDPServer();
 
-	void resetIP(std::string ip);
+	void setIP(std::string ip);
 
-	void resetPort(uint16_t port);
+	void setPort(uint16_t port);
 
 	bool connect();
 
